@@ -46,11 +46,19 @@ app.get('/anncs/:anncId', (req, res) => {
 app.post('/anncs', (req, res) => {
 
    const newAnnc = {
-      audience: req.body.audience,
       category: req.body.category,
+      audience: req.body.audience,
+      evnt_title: req.body.evnt_title,
+      evnt_date: req.body.evnt_date,
+      evnt_loc: req.body.evnt_loc,
+      cont_name: req.body.cont_name,
+      cont_email: req.body.cont_email,
+      num_weeks: req.body.num_weeks,
+      description: req.body.description,
       url: req.body.url,
+      sub_name: req.body.sub_name,
+      sub_email: req.body.sub_email,
       timestamp: new Date().toISOString()
-      // TODO: fill in remaining fields
    }
 
    admin
@@ -65,5 +73,7 @@ app.post('/anncs', (req, res) => {
          console.error(err);
       })
 })
+
+// PATCH - update 
 
 exports.api = functions.https.onRequest(app);
