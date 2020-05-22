@@ -1,20 +1,16 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
+const serviceAccount = require('./config/ecsas-4e69c-firebase-adminsdk-mnrod-832fa60090.json')
 
-const serviceAccount = '/home/blakefuller/.firebase/ecsas-4e69c-firebase-adminsdk-mnrod-832fa60090.json'
+const express = require('express')
+const app = express()
+
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount)
 })
 
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-
-exports.helloWorld = functions.https.onRequest((request, response) => {
-   response.send("Hello world");
-});
-
-// get all current announcements
-exports.getAnncs = functions.https.onRequest((req, res) => {
+// GET - get all current announcements
+app.get('/anncs', (req, res) => {
    admin
       .firestore()
       .collection('announcements')
@@ -31,11 +27,30 @@ exports.getAnncs = functions.https.onRequest((req, res) => {
       })
 })
 
-// submit new announcement
-exports.createAnnc = functions.https.onRequest((req, res) => {
+// GET - get announcement by ID
+app.get('/anncs/:anncId', (req, res) => {
+   admin
+      .firestore()
+      .collection('announcements')
+      .doc(req.params.anncId)
+      .get()
+      .then(doc => {
+         return(res.json(doc.data()))
+      })
+      .catch(err => {
+         console.error(err);
+      })
+})
+
+// POST - submit new announcement
+app.post('/anncs', (req, res) => {
+
    const newAnnc = {
       audience: req.body.audience,
-      category: req.body.category
+      category: req.body.category,
+      url: req.body.url,
+      timestamp: new Date().toISOString()
+      // TODO: fill in remaining fields
    }
 
    admin
@@ -50,3 +65,5 @@ exports.createAnnc = functions.https.onRequest((req, res) => {
          console.error(err);
       })
 })
+
+exports.api = functions.https.onRequest(app);
