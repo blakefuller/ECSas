@@ -44,7 +44,6 @@ app.get('/anncs/:anncId', (req, res) => {
 
 // POST - submit new announcement
 app.post('/anncs', (req, res) => {
-
    const newAnnc = {
       category: req.body.category,
       audience: req.body.audience,
@@ -69,11 +68,52 @@ app.post('/anncs', (req, res) => {
          res.status(201).json({message: `document ${doc.id} created successfully`});
       })
       .catch(err => {
-         res.status(500).json({error: 'something went wrong'});
+         res.status(500).json({error: 'Something went wrong, post not created'});
          console.error(err);
       })
 })
 
-// PATCH - update 
+// PUT - update announcement by ID
+app.put('/anncs/:anncId', (req, res) => {
+   const updatedAnnc = {
+      category: req.body.category,
+      audience: req.body.audience,
+      evnt_title: req.body.evnt_title,
+      evnt_date: req.body.evnt_date,
+      evnt_loc: req.body.evnt_loc,
+      cont_name: req.body.cont_name,
+      cont_email: req.body.cont_email,
+      num_weeks: req.body.num_weeks,
+      description: req.body.description,
+      url: req.body.url,
+      sub_name: req.body.sub_name,
+      sub_email: req.body.sub_email,
+      timestamp: new Date().toISOString()
+   }
+
+   admin
+      .firestore()
+      .collection('announcements')
+      .doc(req.params.anncId)
+      .update(updatedAnnc)
+      .then(result => {
+         res.status(200).json(
+            {
+               id: req.params.anncId,
+               time: result.writeTime.toDate(),
+               message: 'Document sucessfully updated'
+            }
+         )
+      })
+      .catch(err => {
+         res.status(400).json({error: 'Bad reqest'});
+         console.error(err);
+      })
+})
+
+// DELETE - delete announcement by ID
+app.delete('/anncs/:anncId', (req, res) => {
+   // TODO - delete announcement action
+})
 
 exports.api = functions.https.onRequest(app);
