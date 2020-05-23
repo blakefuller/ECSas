@@ -8,11 +8,11 @@ const app = express()
 admin.initializeApp({
    credential: admin.credential.cert(serviceAccount)
 })
+const db = admin.firestore()
 
 // GET - get all current announcements
 app.get('/anncs', (req, res) => {
-   admin
-      .firestore()
+   db
       .collection('announcements')
       .get()
       .then(data => {
@@ -29,12 +29,15 @@ app.get('/anncs', (req, res) => {
 
 // GET - get announcement by ID
 app.get('/anncs/:anncId', (req, res) => {
-   admin
-      .firestore()
+   db
       .collection('announcements')
       .doc(req.params.anncId)
       .get()
       .then(doc => {
+         if(!doc.exists) {
+            res.status(404).json({error: `Document ${doc.id} not found`});
+            return;
+         }
          return(res.json(doc.data()))
       })
       .catch(err => {
@@ -60,12 +63,11 @@ app.post('/anncs', (req, res) => {
       timestamp: new Date().toISOString()
    }
 
-   admin
-      .firestore()
+   db
       .collection('announcements')
       .add(newAnnc)
       .then(doc => {
-         res.status(201).json({message: `document ${doc.id} created successfully`});
+         res.status(201).json({message: `Document ${doc.id} created successfully`});
       })
       .catch(err => {
          res.status(500).json({error: 'Something went wrong, post not created'});
@@ -91,8 +93,7 @@ app.put('/anncs/:anncId', (req, res) => {
       timestamp: new Date().toISOString()
    }
 
-   admin
-      .firestore()
+   db
       .collection('announcements')
       .doc(req.params.anncId)
       .update(updatedAnnc)
@@ -106,14 +107,30 @@ app.put('/anncs/:anncId', (req, res) => {
          )
       })
       .catch(err => {
-         res.status(400).json({error: 'Bad reqest'});
+         res.status(404).json({error: 'Document not found'});
          console.error(err);
       })
 })
 
 // DELETE - delete announcement by ID
 app.delete('/anncs/:anncId', (req, res) => {
-   // TODO - delete announcement action
+   db
+      .collection('announcements')
+      .doc(req.params.anncId)
+      .delete()
+      .then(result => {
+         res.status(200).json(
+            {
+               id: req.params.anncId,
+               time: result.writeTime.toDate(),
+               message: 'Document sucessfully deleted'
+            }
+         )
+      })
+      .catch(err => {
+         res.status(404).json({error: 'Document not found'});
+         console.error(err);
+      })
 })
 
 exports.api = functions.https.onRequest(app);
