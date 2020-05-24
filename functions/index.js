@@ -1,14 +1,9 @@
 const functions = require('firebase-functions')
-const admin = require('firebase-admin')
-const serviceAccount = require('./config/ecsas-4e69c-firebase-adminsdk-mnrod-832fa60090.json')
-
-const express = require('express')
-const app = express()
-
-admin.initializeApp({
-   credential: admin.credential.cert(serviceAccount)
-})
-const db = admin.firestore()
+const firebaseConfig = require('./config/firebaseConfig.json')
+const firebase = require('firebase')
+const app = require('express')()
+firebase.initializeApp(firebaseConfig)
+const db = firebase.firestore()
 
 // GET - get all current announcements
 app.get('/anncs', (req, res) => {
