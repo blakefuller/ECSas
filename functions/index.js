@@ -1,7 +1,6 @@
 const functions = require('firebase-functions')
 const firebaseConfig = require('./config/firebaseConfig.json')
 const firebase = require('firebase')
-const Joi = require('@hapi/joi')
 const model = require('./anncModel')
 const app = require('express')()
 firebase.initializeApp(firebaseConfig)
@@ -80,39 +79,45 @@ app.post('/anncs', (req, res) => {
 
 // PUT - update announcement by ID
 app.put('/anncs/:anncId', (req, res) => {
-   const updatedAnnc = {
-      category: req.body.category,
-      audience: req.body.audience,
-      evnt_title: req.body.evnt_title,
-      evnt_date: req.body.evnt_date,
-      evnt_loc: req.body.evnt_loc,
-      cont_name: req.body.cont_name,
-      cont_email: req.body.cont_email,
-      num_weeks: req.body.num_weeks,
-      description: req.body.description,
-      url: req.body.url,
-      sub_name: req.body.sub_name,
-      sub_email: req.body.sub_email,
-      timestamp: new Date().toISOString()
+   // validate request body against announcement model
+   const result = model.schema.validate(req.body);
+   if (result.error) {
+      res.status(400).json({message: result.error.details[0].message});
+   } else {
+      const updatedAnnc = {
+         category: req.body.category,
+         audience: req.body.audience,
+         evnt_title: req.body.evnt_title,
+         evnt_date: req.body.evnt_date,
+         evnt_loc: req.body.evnt_loc,
+         cont_name: req.body.cont_name,
+         cont_email: req.body.cont_email,
+         num_weeks: req.body.num_weeks,
+         description: req.body.description,
+         url: req.body.url,
+         sub_name: req.body.sub_name,
+         sub_email: req.body.sub_email,
+         timestamp: new Date().toISOString()
+      }
+   
+      db
+         .collection('announcements')
+         .doc(req.params.anncId)
+         .update(updatedAnnc)
+         .then(result => {
+            res.status(200).json(
+               {
+                  id: req.params.anncId,
+                  time: result.writeTime.toDate(),
+                  message: 'Document sucessfully updated'
+               }
+            )
+         })
+         .catch(err => {
+            res.status(404).json({error: 'Document not found'});
+            console.error(err);
+         })
    }
-
-   db
-      .collection('announcements')
-      .doc(req.params.anncId)
-      .update(updatedAnnc)
-      .then(result => {
-         res.status(200).json(
-            {
-               id: req.params.anncId,
-               time: result.writeTime.toDate(),
-               message: 'Document sucessfully updated'
-            }
-         )
-      })
-      .catch(err => {
-         res.status(404).json({error: 'Document not found'});
-         console.error(err);
-      })
 })
 
 // DELETE - delete announcement by ID
