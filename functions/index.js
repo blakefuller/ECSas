@@ -1,6 +1,7 @@
 const functions = require('firebase-functions')
 const firebaseConfig = require('./config/firebaseConfig.json')
 const firebase = require('firebase')
+const Joi = require('@hapi/joi')
 const model = require('./anncModel')
 const app = require('express')()
 firebase.initializeApp(firebaseConfig)
@@ -105,13 +106,7 @@ app.put('/anncs/:anncId', (req, res) => {
          .doc(req.params.anncId)
          .update(updatedAnnc)
          .then(result => {
-            res.status(200).json(
-               {
-                  id: req.params.anncId,
-                  time: result.writeTime.toDate(),
-                  message: 'Document sucessfully updated'
-               }
-            )
+            res.status(204).send()
          })
          .catch(err => {
             res.status(404).json({error: 'Document not found'});
@@ -133,6 +128,33 @@ app.delete('/anncs/:anncId', (req, res) => {
          res.status(404).json({error: 'Document not found'});
          console.error(err);
       })
+})
+
+// LOGIN - login function for admin user
+app.post('/admin-login', (req, res) => {
+   // validate that email and password are passed
+   const schema = Joi.object({
+      email: Joi.string().email().required(),
+      password: Joi.string().required()
+   })
+   const result = schema.validate(req.body);
+   if (result.error) {
+      res.status(400).json({message: result.error.details[0].message});
+   } else {
+      firebase
+         .auth()
+         .signInWithEmailAndPassword(req.body.email, req.body.password)
+         .then(data => {
+            return data.user.getIdToken();
+         })
+         .then(token => {
+            return res.json({token});
+         })
+         .catch(err => {
+            console.error(err);
+            return res.status(500).json({error: err.code});
+         })
+   }
 })
 
 exports.api = functions.https.onRequest(app);
