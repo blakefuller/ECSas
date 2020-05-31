@@ -1,11 +1,43 @@
 const functions = require('firebase-functions')
 const firebaseConfig = require('./config/firebaseConfig.json')
 const firebase = require('firebase')
+const admin = require('firebase-admin')
 const Joi = require('@hapi/joi')
 const model = require('./anncModel')
 const app = require('express')()
 firebase.initializeApp(firebaseConfig)
+admin.initializeApp(firebaseConfig)
 const db = firebase.firestore()
+
+// function to authenticate protected API actions
+//    this function is provided as the second argument
+//    in any protected api route
+const FireAuth = (req, res, next) => {
+   if(req.headers.authorization && 
+      req.headers.authorization.startsWith('Bearer ')) {
+         idToken = req.headers.authorization.split('Bearer ')[1];
+   } else {
+      console.error('No token found')
+      return(res.status(403).json({error: 'Unauthorized'}))
+   }
+   admin.auth().verifyIdToken(idToken)
+      .then(decodedToken => {
+         req.user = decodedToken;
+         console.log(decodedToken)
+         return db.collection('admins')
+            .where('userId', '==', req.user.uid)
+            .limit(1)
+            .get()
+      })
+      .then(data => {
+         req.user.name = data.docs[0].data().name;
+         return next();
+      })
+      .catch(err => {
+         console.error('Error while verifying token ', err);
+         return res.status(403).json(err);
+      })
+}
 
 // GET - get all current announcements
 app.get('/anncs', (req, res) => {
@@ -79,7 +111,7 @@ app.post('/anncs', (req, res) => {
 })
 
 // PUT - update announcement by ID
-app.put('/anncs/:anncId', (req, res) => {
+app.put('/anncs/:anncId', FireAuth, (req, res) => {
    // validate request body against announcement model
    const result = model.schema.validate(req.body);
    if (result.error) {
@@ -116,7 +148,7 @@ app.put('/anncs/:anncId', (req, res) => {
 })
 
 // DELETE - delete announcement by ID
-app.delete('/anncs/:anncId', (req, res) => {
+app.delete('/anncs/:anncId', FireAuth, (req, res) => {
    db
       .collection('announcements')
       .doc(req.params.anncId)
