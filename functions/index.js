@@ -4,7 +4,8 @@ const {  getAllAnncs,
          getAnnc,
          submitAnnc,
          updateAnnc,
-         deleteAnnc } = require('./routes/anncs')
+         deleteAnnc,
+         archiveAnnc } = require('./routes/anncs')
 const { adminLogin } = require('./routes/adminLogin')
 const { fbAuth } = require('./util/fbAuth')
 
@@ -14,7 +15,8 @@ app.get('/anncs', getAllAnncs)
 app.get('/anncs/:anncId', getAnnc)
 app.post('/anncs', submitAnnc)
 app.put('/anncs/:anncId', fbAuth, updateAnnc)
-app.delete('/anncs/:anncId', fbAuth, deleteAnnc)
+app.put('/anncs/archive/:anncId', fbAuth, archiveAnnc)
+app.delete('/anncs/archive/:anncId', fbAuth, deleteAnnc)
 
 //* ~~~ Admin Routes ~~~ *//
 

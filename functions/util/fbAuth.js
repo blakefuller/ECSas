@@ -14,7 +14,6 @@ exports.fbAuth = (req, res, next) => {
    fbAdmin.auth().verifyIdToken(idToken)
       .then(decodedToken => {
          req.user = decodedToken;
-         console.log(decodedToken)
          return db.collection('admins')
             .where('userId', '==', req.user.uid)
             .limit(1)
