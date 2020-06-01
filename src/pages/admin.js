@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Grid from '@material-ui/core/Grid'
 import axios from 'axios'
+import Annc from '../components/Annc'
 
 export class admin extends Component {
    state = {
@@ -19,7 +20,7 @@ export class admin extends Component {
    }
    render() {
       let currentAnncs = this.state.anncs ? (
-         this.state.anncs.map(annc => <p>{annc}</p>)
+         this.state.anncs.map(annc => <Annc annc={annc}/>)
       ) : <p>Loading...</p>
       return (
          <Grid container>
