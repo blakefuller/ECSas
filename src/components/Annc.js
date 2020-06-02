@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 // material UI
+import { withStyles } from "@material-ui/core/styles";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -8,13 +8,41 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import { Typography, IconButton } from "@material-ui/core";
+import { Typography, IconButton, Divider } from "@material-ui/core";
+import createSpacing from "@material-ui/core/styles/createSpacing";
+import { Link } from "react-router-dom";
 
-const styles = {
-  card: {
-    display: "flex",
+const styles = (theme) => ({
+  palette: {
+    primary: {
+      light: "#72f3ad",
+      main: "#4ff199",
+      dark: "#37a86b",
+    },
+    secondary: {
+      light: "#caded2",
+      main: "#4ff199",
+      dark: "#84958b",
+    },
   },
-};
+  card: {
+    margin: "30px",
+    boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
+    "&:hover": {
+      boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
+    },
+  },
+  description: {
+    // padding: spacing
+  },
+  divider: {
+    margin: `${theme.spacing.unit * 3}px 0`,
+  },
+  url: {
+    color: `${theme.palette.primary.dark}`,
+    display: "block"
+  }
+});
 
 class Annc extends Component {
   render() {
@@ -32,7 +60,7 @@ class Annc extends Component {
       },
     } = this.props;
     return (
-      <Card>
+      <Card className={classes.card}>
         <CardHeader
           action={
             <IconButton aria-label="options">
@@ -43,9 +71,26 @@ class Annc extends Component {
           subheader={evnt_date + " - " + evnt_loc}
         />
         <CardContent>
-          <Typography variant="body2" gutterBottom="true">{description}</Typography>
-          <Typography variant="subtitle2" ></Typography>
-          <Typography variant="caption"></Typography>
+          <Typography
+            className={classes.description}
+            variant="body2"
+            gutterBottom
+          >
+            {description}
+          </Typography>
+          <Divider className={classes.divider} light />
+          <Typography
+            className={classes.url}
+            variant="caption"
+            paragraph="true"
+            component={Link}
+            to={url}
+          >
+            {url}
+          </Typography>
+          <Typography className="contact" variant="caption">
+            submitted by: {cont_name + " - " + cont_email}
+          </Typography>
         </CardContent>
       </Card>
     );
