@@ -11,6 +11,8 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Typography, IconButton, Divider } from "@material-ui/core";
 import createSpacing from "@material-ui/core/styles/createSpacing";
 import { Link } from "react-router-dom";
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 const styles = (theme) => ({
   palette: {
@@ -26,7 +28,7 @@ const styles = (theme) => ({
     },
   },
   card: {
-    margin: "30px",
+    marginBottom: "20px",
     boxShadow: "0 8px 40px -12px rgba(0,0,0,0.3)",
     "&:hover": {
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
@@ -46,6 +48,7 @@ const styles = (theme) => ({
 
 class Annc extends Component {
   render() {
+    dayjs.extend(relativeTime)
     const {
       classes,
       annc: {
@@ -57,6 +60,7 @@ class Annc extends Component {
         url,
         cont_name,
         cont_email,
+        timestamp
       },
     } = this.props;
     return (
@@ -89,7 +93,10 @@ class Annc extends Component {
             {url}
           </Typography>
           <Typography className="contact" variant="caption">
-            submitted by: {cont_name + " - " + cont_email}
+            <p>submitted by {cont_name + " - " + cont_email}</p>
+          </Typography>
+          <Typography className="contact" variant="caption">
+            <p>submitted {dayjs(timestamp).fromNow()}</p>
           </Typography>
         </CardContent>
       </Card>
