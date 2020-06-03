@@ -36,7 +36,7 @@ export class adminLogin extends Component {
       email: "",
       password: "",
       loading: false,
-      errors: {},
+      errors: {}
     };
   }
 
@@ -52,6 +52,7 @@ export class adminLogin extends Component {
       email: this.state.email,
       password: this.state.password,
     };
+
     // send POST request to API for login
     axios
       .post("/admin-login", userData)
