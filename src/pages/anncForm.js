@@ -19,6 +19,8 @@ const styles = {
     margin: "30px",
   },
   button: {
+    display: "block",
+    alignContent: "center",
     marginTop: 30,
     position: "relative",
   },
@@ -91,7 +93,7 @@ export class adminLogin extends Component {
       category: "",
       audience: "",
       evnt_title: "",
-      evnt_date: "",
+      evnt_date: "01/01/2020",
       evnt_loc: "",
       cont_name: "",
       cont_email: "",
@@ -155,12 +157,12 @@ export class adminLogin extends Component {
     });
   };
 
-  // // function for handling date change
-  // handleDateChange = (event) => {
-  //   this.setState({
-  //     [event.target.]
-  //   })
-  // }
+  // function for handling date change
+  handleDateChange = (date, value) => {
+    this.setState({
+      value: new Date(date).toISOString()
+    })
+  }
 
   render() {
     const { classes } = this.props;
@@ -193,6 +195,7 @@ export class adminLogin extends Component {
             {/* Category */}
             <TextField
               id="category"
+              required
               name="category"
               type="category"
               label="Choose Category"
@@ -214,6 +217,7 @@ export class adminLogin extends Component {
             {/* Audience */}
             <TextField
               id="audience"
+              required
               name="audience"
               type="audience"
               label="Choose Audience"
@@ -235,6 +239,7 @@ export class adminLogin extends Component {
             {/* Event Title */}
             <TextField
               id="evnt_title"
+              required
               name="evnt_title"
               type="evnt_title"
               label="Event Title"
@@ -258,25 +263,127 @@ export class adminLogin extends Component {
                 className={classes.textField}
                 value={this.state.evnt_date}
                 // TODO handler is broken
-                onChange={this.handleChange}
+                onChange={this.handleDateChange}
                 fullWidth
                 KeyboardButtonProps={{
                   'aria-label': 'change date',
                 }}
               />
             </MuiPickersUtilsProvider>
-            {/* <TextField
-              id="evnt_date"
-              name="evnt_date"
-              type="evnt_date"
-              label="Event Title"
+            
+            {/* Event Location */}
+            <TextField
+              id="evnt_loc"
+              name="evnt_loc"
+              type="evnt_loc"
+              label="Event Location"
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.audience}
+              value={this.state.evnt_loc}
               onChange={this.handleChange}
               fullWidth
-            /> */}
+            />
+
+            {/* Contact Name */}
+            <TextField
+              id="cont_name"
+              name="cont_name"
+              type="cont_name"
+              label="Contact Name"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.cont_name}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            {/* Contact Email */}
+            <TextField
+              id="cont_email"
+              name="cont_email"
+              type="cont_email"
+              label="Contact Email"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.cont_email}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            {/* Number of Weeks */}
+            <TextField
+              id="num_weeks"
+              required
+              name="num_weeks"
+              type="number"
+              label="Number of Weeks"
+              number
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.num_weeks}
+              onChange={this.handleChange}
+            />
+
+            {/* Description */}
+            <TextField
+              id="description"
+              required
+              name="description"
+              type="description"
+              label="Description"
+              multiline
+              rows={5}
+              variant="outlined"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.description}
+              onChange={this.handleChange}
+              fullWidth
+            />
+
+            {/* URL */}
+            <TextField
+              id="url"
+              name="url"
+              type="url"
+              label="URL"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.url}
+              onChange={this.handleChange}
+            />
+
+            {/* Submitter Name */}
+            <TextField
+              id="sub_name"
+              name="sub_name"
+              type="sub_name"
+              label="Submitter Name"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.sub_name}
+              onChange={this.handleChange}
+            />
+
+            {/* Submitter Email */}
+            <TextField
+              id="sub_email"
+              name="sub_email"
+              type="sub_email"
+              label="Submitter Email"
+              className={classes.textField}
+              helperText={errors.message}
+              error={errors.message ? true : false}
+              value={this.state.sub_email}
+              onChange={this.handleChange}
+            />
 
             {/* if any errors occur when logging in, display here */}
             {errors.general && (

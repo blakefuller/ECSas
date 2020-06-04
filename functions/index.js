@@ -12,8 +12,7 @@ const { adminLogin } = require('./routes/adminLogin')
 const { fbAuth } = require('./util/fbAuth')
 
 //* ~~~ Announcements Routes ~~~ *//
-// app.get('/anncs', fbAuth, getAllAnncs)
-app.get('/anncs', getAllAnncs)
+app.get('/anncs', fbAuth, getAllAnncs)
 app.get('/anncs/:anncId', fbAuth, getAnnc)
 app.post('/anncs', submitAnnc)
 app.put('/anncs/:anncId', fbAuth, updateAnnc)

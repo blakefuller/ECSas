@@ -11,15 +11,15 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { Typography, IconButton, Divider } from "@material-ui/core";
 import createSpacing from "@material-ui/core/styles/createSpacing";
 import { Link } from "react-router-dom";
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const styles = (theme) => ({
   palette: {
     primary: {
-      light: "#72f3ad",
-      main: "#4ff199",
-      dark: "#37a86b",
+      light: "#81A1C1",
+      main: "#5E81AC",
+      dark: "#4C566A",
     },
     secondary: {
       light: "#caded2",
@@ -38,17 +38,20 @@ const styles = (theme) => ({
     // padding: spacing
   },
   divider: {
-    margin: `${theme.spacing.unit * 3}px 0`,
+    margin: `${theme.spacing(3)}px 0`,
   },
   url: {
     color: `${theme.palette.primary.dark}`,
-    display: "block"
+    display: "block",
+  },
+  link: {
+    color: theme.palette.primary.light
   }
 });
 
 class Annc extends Component {
   render() {
-    dayjs.extend(relativeTime)
+    dayjs.extend(relativeTime);
     const {
       classes,
       annc: {
@@ -60,7 +63,7 @@ class Annc extends Component {
         url,
         cont_name,
         cont_email,
-        timestamp
+        timestamp,
       },
     } = this.props;
     return (
@@ -86,11 +89,11 @@ class Annc extends Component {
           <Typography
             className={classes.url}
             variant="caption"
-            paragraph="true"
-            component={Link}
-            to={url}
+            paragraph={true}
           >
-            {url}
+            <a className={classes.link} href={url} target="blank">
+              {url}
+            </a>
           </Typography>
           <Typography className="contact" variant="caption">
             <p>submitted by {cont_name + " - " + cont_email}</p>

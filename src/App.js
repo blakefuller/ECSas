@@ -7,24 +7,24 @@ import anncForm from "./pages/anncForm";
 import admin from "./pages/admin";
 import adminLogin from "./pages/adminLogin";
 import Navbar from "./components/Navbar";
+import AuthRoute from "./util/AuthRoute";
+import themeFile from "./util/theme";
+import jwtDecode from "jwt-decode";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#72f3ad",
-      main: "#4ff199",
-      dark: "#37a86b",
-    },
-    secondary: {
-      light: "#caded2",
-      main: "#4ff199",
-      dark: "#84958b",
-    },
-  },
-  typography: {
-    useNextVariants: true
+const theme = createMuiTheme(themeFile);
+
+// check for login token in local storage
+const token = localStorage.FBIdToken;
+let authenticated;
+// if token exists, check for expiration date
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 > Date.now()) {
+    authenticated = true;
+  } else {
+    authenticated = false;
   }
-});
+}
 
 function App() {
   return (
@@ -35,8 +35,12 @@ function App() {
           <div className="container">
             <Switch>
               <Route path="/form" component={anncForm} />
-              <Route path="/admin" component={admin} />
-              <Route path="/admin-login" component={adminLogin} />
+              <AuthRoute path="/admin" component={admin} />
+              <AuthRoute
+                path="/admin-login"
+                component={adminLogin}
+                authenticated={authenticated}
+              />
             </Switch>
           </div>
         </Router>

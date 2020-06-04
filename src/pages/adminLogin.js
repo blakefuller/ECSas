@@ -17,15 +17,15 @@ const styles = {
   },
   button: {
     marginTop: 30,
-    position: "relative"
+    position: "relative",
   },
   customError: {
     marginTop: 15,
     color: "red",
   },
   progress: {
-    position: "absolute"
-  }
+    position: "absolute",
+  },
 };
 
 export class adminLogin extends Component {
@@ -36,7 +36,7 @@ export class adminLogin extends Component {
       email: "",
       password: "",
       loading: false,
-      errors: {}
+      errors: {},
     };
   }
 
@@ -58,7 +58,8 @@ export class adminLogin extends Component {
       .post("/admin-login", userData)
       // if login is successful
       .then((res) => {
-        console.log(res.data);
+        // store token in local storage
+        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
         this.setState({
           loading: false,
         });
@@ -130,7 +131,9 @@ export class adminLogin extends Component {
               disabled={loading}
             >
               Login
-              {loading && <CircularProgress size={30} className={classes.progress} />}
+              {loading && (
+                <CircularProgress size={30} className={classes.progress} />
+              )}
             </Button>
           </form>
         </Grid>
