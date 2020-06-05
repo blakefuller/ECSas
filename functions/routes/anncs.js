@@ -31,7 +31,7 @@ exports.getAnnc = (req, res) => {
             res.status(404).json({error: `Document ${doc.id} not found`});
             return;
          }
-         return(res.json(doc.data()))
+         return(res.json({id: doc.id, ...doc.data()}))
       })
       .catch(err => {
          console.error(err);
