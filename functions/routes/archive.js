@@ -50,7 +50,7 @@ exports.getAllArchAnncs = (req, res) => {
       .then(data => {
          let anncs = []
          data.forEach(doc => {
-            anncs.push(doc.data());
+            anncs.push({id: doc.id, ...doc.data()});
          });
          return(res.json(anncs))
       })
@@ -70,7 +70,7 @@ exports.getArchAnnc = (req, res) => {
             res.status(404).json({error: `Document ${doc.id} not found`});
             return;
          }
-         return(res.json(doc.data()))
+         return(res.json({id: doc.id, ...doc.data()}))
       })
       .catch(err => {
          console.error(err);
