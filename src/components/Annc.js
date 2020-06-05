@@ -9,6 +9,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import { Typography, IconButton, Divider } from "@material-ui/core";
+import Menu from "@material-ui/core/Menu"
+import MenuItem from "@material-ui/core/MenuItem"
 import createSpacing from "@material-ui/core/styles/createSpacing";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -34,9 +36,6 @@ const styles = (theme) => ({
       boxShadow: "0 16px 70px -12.125px rgba(0,0,0,0.3)",
     },
   },
-  description: {
-    // padding: spacing
-  },
   divider: {
     margin: `${theme.spacing(3)}px 0`,
   },
@@ -45,7 +44,8 @@ const styles = (theme) => ({
     display: "block",
   },
   link: {
-    color: theme.palette.primary.light
+    color: theme.palette.primary.light,
+    textDecoration: "none"
   }
 });
 
@@ -55,6 +55,7 @@ class Annc extends Component {
     const {
       classes,
       annc: {
+        id,
         category,
         evnt_title,
         evnt_date,

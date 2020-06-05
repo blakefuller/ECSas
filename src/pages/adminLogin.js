@@ -59,7 +59,8 @@ export class adminLogin extends Component {
       // if login is successful
       .then((res) => {
         // store token in local storage
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
+        const FBIdToken = `Bearer ${res.data.token}`;
+        localStorage.setItem("FBIdToken", FBIdToken);
         this.setState({
           loading: false,
         });

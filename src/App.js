@@ -8,7 +8,7 @@ import admin from "./pages/admin";
 import adminLogin from "./pages/adminLogin";
 import Navbar from "./components/Navbar";
 import AuthRoute from "./util/AuthRoute";
-import themeFile from "./util/theme";
+import themeFile from "./themes/theme";
 import jwtDecode from "jwt-decode";
 
 const theme = createMuiTheme(themeFile);
