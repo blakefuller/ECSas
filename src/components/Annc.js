@@ -24,6 +24,7 @@ import createSpacing from "@material-ui/core/styles/createSpacing";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import axios from "axios";
 
 const styles = (theme) => ({
   palette: {
@@ -98,13 +99,22 @@ class Annc extends Component {
 
   // function for handling edit button
   handleEditClick = () => {
-    const anncId = this.props.annc.id;
     // TODO
   };
 
   // function for handling archive button
   handleArchiveClick = () => {
-    // TODO
+    const anncId = this.props.annc.id;
+    axios
+      .put(`/archive/${anncId}`, null, {
+        headers: { Authorization: `${localStorage.FBIdToken}` },
+      })
+      .then(() => {
+        window.location.reload();
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   // function for handling delete button
