@@ -7,8 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import MenuItem from "@material-ui/core/MenuItem";
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
-import DateFnsUtils from "@date-io/date-fns"
+import Snackbar from "@material-ui/core/Snackbar";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 
 const styles = {
@@ -82,7 +86,7 @@ const audiences = [
   {
     value: "Mechanical and general engineering students",
     label: "ME and EGR students",
-  }
+  },
 ];
 
 export class adminLogin extends Component {
@@ -113,6 +117,7 @@ export class adminLogin extends Component {
     event.preventDefault();
     this.setState({
       loading: true,
+      openBar: false,
     });
     // get form data from state
     const formData = {
@@ -138,8 +143,8 @@ export class adminLogin extends Component {
         console.log(res.data);
         this.setState({
           loading: false,
+          openBar: true,
         });
-        this.props.history.push("/admin");
       })
       // catches any errors that occur during login
       .catch((err) => {
@@ -160,9 +165,16 @@ export class adminLogin extends Component {
   // function for handling date change
   handleDateChange = (date, value) => {
     this.setState({
-      value: new Date(date).toISOString()
-    })
-  }
+      value: new Date(date).toISOString(),
+    });
+  };
+
+  handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    this.setState({ openBar: false });
+  };
 
   render() {
     const { classes } = this.props;
@@ -191,7 +203,6 @@ export class adminLogin extends Component {
             New Announcement
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
-
             {/* Category */}
             <TextField
               id="category"
@@ -203,7 +214,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.category}
+              value={category}
               onChange={this.handleChange}
               fullWidth
             >
@@ -225,7 +236,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.audience}
+              value={audience}
               onChange={this.handleChange}
               fullWidth
             >
@@ -246,7 +257,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.evnt_title}
+              value={evnt_title}
               onChange={this.handleChange}
               fullWidth
             />
@@ -261,16 +272,16 @@ export class adminLogin extends Component {
                 type="evnt_date"
                 label="Event Date"
                 className={classes.textField}
-                value={this.state.evnt_date}
+                value={evnt_date}
                 // TODO handler is broken
                 onChange={this.handleDateChange}
                 fullWidth
                 KeyboardButtonProps={{
-                  'aria-label': 'change date',
+                  "aria-label": "change date",
                 }}
               />
             </MuiPickersUtilsProvider>
-            
+
             {/* Event Location */}
             <TextField
               id="evnt_loc"
@@ -280,7 +291,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.evnt_loc}
+              value={evnt_loc}
               onChange={this.handleChange}
               fullWidth
             />
@@ -294,7 +305,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.cont_name}
+              value={cont_name}
               onChange={this.handleChange}
               fullWidth
             />
@@ -308,7 +319,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.cont_email}
+              value={cont_email}
               onChange={this.handleChange}
               fullWidth
             />
@@ -324,7 +335,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.num_weeks}
+              value={num_weeks}
               onChange={this.handleChange}
             />
 
@@ -341,7 +352,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.description}
+              value={description}
               onChange={this.handleChange}
               fullWidth
             />
@@ -355,7 +366,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.url}
+              value={url}
               onChange={this.handleChange}
             />
 
@@ -368,7 +379,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.sub_name}
+              value={sub_name}
               onChange={this.handleChange}
             />
 
@@ -381,7 +392,7 @@ export class adminLogin extends Component {
               className={classes.textField}
               helperText={errors.message}
               error={errors.message ? true : false}
-              value={this.state.sub_email}
+              value={sub_email}
               onChange={this.handleChange}
             />
 
@@ -403,6 +414,16 @@ export class adminLogin extends Component {
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
+
+            {/* success message */}
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              open={this.state.openBar}
+              autoHideDuration={6000}
+              onClose={this.handleClose}
+              message={"Announcement Submitted"}
+              // color={}
+            />
           </form>
         </Grid>
         <Grid item sm />
