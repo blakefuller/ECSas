@@ -11,7 +11,7 @@ exports.getAllAnncs = (req, res) => {
       .then(data => {
          let anncs = []
          data.forEach(doc => {
-            anncs.push(doc.data());
+            anncs.push({id: doc.id, ...doc.data()});
          });
          return(res.json(anncs))
       })
