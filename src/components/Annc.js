@@ -8,9 +8,18 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import { Typography, IconButton, Divider } from "@material-ui/core";
-import Menu from "@material-ui/core/Menu"
-import MenuItem from "@material-ui/core/MenuItem"
+import {
+  Typography,
+  IconButton,
+  Divider,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import EditIcon from "@material-ui/icons/Edit";
+import ArchiveIcon from "@material-ui/icons/Archive";
+import DeleteIcon from "@material-ui/icons/Delete";
 import createSpacing from "@material-ui/core/styles/createSpacing";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -45,11 +54,78 @@ const styles = (theme) => ({
   },
   link: {
     color: theme.palette.primary.light,
-    textDecoration: "none"
-  }
+    textDecoration: "none",
+  },
 });
 
+// styled menu component
+const StyledMenu = withStyles({
+  paper: {
+    border: "1px solid #d3d4d5",
+  },
+})((props) => (
+  <Menu
+    elevation={0}
+    getContentAnchorEl={null}
+    anchorOrigin={{
+      vertical: "bottom",
+      horizontal: "center",
+    }}
+    transformOrigin={{
+      vertical: "top",
+      horizontal: "center",
+    }}
+    {...props}
+  />
+));
+
+// styled menu item component
+const StyledMenuItem = withStyles((theme) => ({
+  root: {
+    "&:focus": {
+      backgroundColor: theme.palette.primary.main,
+      "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
+        color: theme.palette.common.white,
+      },
+    },
+  },
+}))(MenuItem);
+
 class Annc extends Component {
+  state = {
+    anchorEl: null,
+  };
+
+  // function for handling edit button
+  handleEditClick = () => {
+    const anncId = this.props.annc.id;
+    // TODO
+  };
+
+  // function for handling archive button
+  handleArchiveClick = () => {
+    // TODO
+  };
+
+  // function for handling delete button
+  handleDeleteClick = () => {
+    // TODO
+  };
+
+  // function for handling menu button
+  handleMenuClick = (event) => {
+    this.setState({
+      anchorEl: event.target,
+    });
+  };
+
+  // function for handling close menu button
+  handleClose = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  };
+
   render() {
     dayjs.extend(relativeTime);
     const {
@@ -71,13 +147,54 @@ class Annc extends Component {
       <Card className={classes.card}>
         <CardHeader
           action={
-            <IconButton aria-label="options">
+            <IconButton
+              aria-controls="customized-menu"
+              aria-haspopup="true"
+              aria-label="options"
+              onClick={this.handleMenuClick}
+            >
               <MoreVertIcon />
             </IconButton>
           }
           title={evnt_title}
           subheader={evnt_date + " - " + evnt_loc}
         />
+
+        {/* Popup menu */}
+        <StyledMenu
+          id="customized-menu"
+          anchorEl={this.state.anchorEl}
+          keepMounted
+          open={Boolean(this.state.anchorEl)}
+          onClose={this.handleClose}
+        >
+          {/* Edit button */}
+          <StyledMenuItem name="editButton" onClick={this.handleEditClick}>
+            <ListItemIcon>
+              <EditIcon />
+            </ListItemIcon>
+            <ListItemText primary="Edit" />
+          </StyledMenuItem>
+          {/* Archive button */}
+          <StyledMenuItem
+            name="archiveButton"
+            onClick={this.handleArchiveClick}
+          >
+            <ListItemIcon>
+              <ArchiveIcon />
+            </ListItemIcon>
+            <ListItemText primary="Archive" />
+          </StyledMenuItem>
+          {/* Delete button */}
+          <StyledMenuItem name="deleteButton" onClick={this.handleDeleteClick}>
+            <ListItemIcon>
+              <DeleteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Delete" />
+          </StyledMenuItem>
+        </StyledMenu>
+
+        {/* Card body */}
         <CardContent>
           <Typography
             className={classes.description}
