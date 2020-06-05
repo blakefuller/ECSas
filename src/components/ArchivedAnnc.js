@@ -87,7 +87,7 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-class Annc extends Component {
+class ArchivedAnnc extends Component {
   state = {
     anchorEl: null,
   };
@@ -97,11 +97,11 @@ class Annc extends Component {
     // TODO
   };
 
-  // function for handling archive button
-  handleArchiveClick = () => {
+  // function for handling delete button
+  handleDeleteClick = () => {
     const anncId = this.props.annc.id;
     axios
-      .put(`/archive/${anncId}`, null, {
+      .delete(`/archive/${anncId}`, null, {
         headers: { Authorization: `${localStorage.FBIdToken}` },
       })
       .then(() => {
@@ -175,16 +175,6 @@ class Annc extends Component {
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </StyledMenuItem>
-          {/* Archive button */}
-          <StyledMenuItem
-            name="archiveButton"
-            onClick={this.handleArchiveClick}
-          >
-            <ListItemIcon>
-              <ArchiveIcon />
-            </ListItemIcon>
-            <ListItemText primary="Archive" />
-          </StyledMenuItem>
           {/* Delete button */}
           <StyledMenuItem name="deleteButton" onClick={this.handleDeleteClick}>
             <ListItemIcon>
@@ -225,4 +215,4 @@ class Annc extends Component {
   }
 }
 
-export default withStyles(styles)(Annc);
+export default withStyles(styles)(ArchivedAnnc);

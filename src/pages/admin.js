@@ -2,12 +2,10 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 import Annc from "../components/Annc";
+import ArchivedAnnc from "../components/ArchivedAnnc";
 import Typography from "@material-ui/core/Typography";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { Link } from "react-router-dom";
@@ -55,6 +53,20 @@ export class admin extends Component {
       this.state[category].map((annc) => (
         <Grid item key={annc.id}>
           <Annc annc={annc} />
+        </Grid>
+      ))
+    ) : (
+      <p>Loading...</p>
+    );
+    return rendered;
+  };
+
+  // function to render each archived announcement category
+  renderArchivedCategory = (category) => {
+    let rendered = this.state[category] ? (
+      this.state[category].map((annc) => (
+        <Grid item key={annc.id}>
+          <ArchivedAnnc annc={annc} />
         </Grid>
       ))
     ) : (
@@ -131,13 +143,12 @@ export class admin extends Component {
   render() {
     const { classes } = this.props;
 
-    let currentAnncs = this.renderCategory("anncs");
     let ecsAnncs = this.renderCategory("ecsAnncs");
     let ecsEvents = this.renderCategory("ecsEvents");
     let regAdv = this.renderCategory("regAdv");
     let ccc = this.renderCategory("ccc");
     let offCampus = this.renderCategory("offCampus");
-    let archAnncs = this.renderCategory("archAnncs");
+    let archAnncs = this.renderArchivedCategory("archAnncs");
 
     return (
       <Grid container spacing={0}>
