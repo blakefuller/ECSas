@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Grid from "@material-ui/core/Grid";
 // material UI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -10,12 +11,14 @@ export class Navbar extends Component {
     return (
       <AppBar>
         <Toolbar className="nav-container">
-          <Button color="inherit" component={Link} to="/admin-login">
-            Admin Login
-          </Button>
-          <Button color="inherit" component={Link} to="/form">
-            New Announcement
-          </Button>
+          <Grid container justify="space-between">
+            <Button color="inherit" component={Link} to="/admin-login">
+              Admin
+            </Button>
+            <Button color="inherit" component={Link} to="/form">
+              New Announcement
+            </Button>
+          </Grid>
         </Toolbar>
       </AppBar>
     );

@@ -35,6 +35,14 @@ const styles = {
   progress: {
     position: "absolute",
   },
+  textField: {
+    display: "block",
+    padding: "5px"
+  },
+  description: {
+    marginTop: "40px",
+    marginBottom: "30px"
+  }
 };
 
 // set the category choices
@@ -355,9 +363,9 @@ export class adminLogin extends Component {
               type="description"
               label="Description"
               multiline
-              rows={5}
+              rows={10}
               variant="outlined"
-              className={classes.textField}
+              className={classes.description}
               helperText={errors.message}
               error={errors.message ? true : false}
               value={description}
@@ -376,6 +384,7 @@ export class adminLogin extends Component {
               error={errors.message ? true : false}
               value={url}
               onChange={this.handleChange}
+              fullWidth
             />
 
             {/* Submitter Name */}
@@ -389,6 +398,7 @@ export class adminLogin extends Component {
               error={errors.message ? true : false}
               value={sub_name}
               onChange={this.handleChange}
+              required
             />
 
             {/* Submitter Email */}
@@ -402,6 +412,7 @@ export class adminLogin extends Component {
               error={errors.message ? true : false}
               value={sub_email}
               onChange={this.handleChange}
+              required
             />
 
             {/* if any errors occur when logging in, display here */}
