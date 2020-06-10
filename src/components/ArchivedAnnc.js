@@ -101,7 +101,7 @@ class ArchivedAnnc extends Component {
   handleDeleteClick = () => {
     const anncId = this.props.annc.id;
     axios
-      .delete(`/archive/${anncId}`, null, {
+      .delete(`/archive/${anncId}`, {
         headers: { Authorization: `${localStorage.FBIdToken}` },
       })
       .then(() => {
@@ -143,7 +143,7 @@ class ArchivedAnnc extends Component {
         timestamp,
       },
     } = this.props;
-    
+
     // get timestamp in readable format
     let date = new Date(timestamp);
     let time = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
