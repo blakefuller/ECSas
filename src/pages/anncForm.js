@@ -93,11 +93,19 @@ export class adminLogin extends Component {
   // initialize state
   constructor() {
     super();
+
+    // get current date in mm/dd/yyyy
+    let today = new Date();
+    let mm = today.getMonth()+1;
+    let dd = today.getDate();
+    let yyyy = today.getFullYear();
+    today = `${mm}/${dd}/${yyyy}`;
+
     this.state = {
       category: "",
       audience: "",
       evnt_title: "",
-      evnt_date: "01/01/2020",
+      evnt_date: today,
       evnt_loc: "",
       cont_name: "",
       cont_email: "",
