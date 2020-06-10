@@ -169,7 +169,7 @@ class ArchivedAnnc extends Component {
           onClose={this.handleClose}
         >
           {/* Edit button */}
-          <StyledMenuItem name="editButton" onClick={this.handleEditClick}>
+          <StyledMenuItem name="editButton" onClick={this.handleEditClick} disabled>
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>

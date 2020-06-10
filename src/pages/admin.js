@@ -11,13 +11,14 @@ import ExpandLessIcon from "@material-ui/icons/ExpandLess";
 import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { IconButton } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
 
 const styles = {
   button: {
     margin: "none",
   },
   category: {
-    marginLeft: "35px",
+    marginLeft: "20%",
   },
 };
 
@@ -152,36 +153,37 @@ export class admin extends Component {
 
     return (
       <Grid container spacing={0}>
-        <h1>ECS announcements</h1>
-        <Grid container spacing={8}>
+        <h1 className={classes.category}>ECS announcements</h1>
+        <Grid container justify="center" spacing={8}>
           <Grid item sm={8} xs={12}>
             {ecsAnncs}
           </Grid>
         </Grid>
 
-        <h1>ECS events</h1>
-        <Grid container spacing={8}>
+        <Divider orientation="horizontal" />
+        <h1 className={classes.category}>ECS events</h1>
+        <Grid container justify="center" spacing={8}>
           <Grid item sm={8} xs={12}>
             {ecsEvents}
           </Grid>
         </Grid>
 
-        <h1>Registration/Advising</h1>
-        <Grid container spacing={8}>
+        <h1 className={classes.category}>Registration/Advising</h1>
+        <Grid container justify="center" spacing={8}>
           <Grid item sm={8} xs={12}>
             {regAdv}
           </Grid>
         </Grid>
 
-        <h1>Center for Career and Calling</h1>
-        <Grid container spacing={8}>
+        <h1 className={classes.category}>Center for Career and Calling</h1>
+        <Grid container justify="center" spacing={8}>
           <Grid item sm={8} xs={12}>
             {ccc}
           </Grid>
         </Grid>
 
         <h1 className={classes.category}>Off-campus events</h1>
-        <Grid container spacing={8}>
+        <Grid container justify="center" spacing={8}>
           <Grid item sm={8} xs={12}>
             {offCampus}
           </Grid>
@@ -196,7 +198,7 @@ export class admin extends Component {
           </IconButton>
         </Grid>
         {this.state.expandArch && (
-          <Grid container spacing={8}>
+          <Grid container justify="center" spacing={8}>
             <Grid item sm={8} xs={12}>
               {archAnncs}
             </Grid>

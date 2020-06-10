@@ -97,6 +97,11 @@ class Annc extends Component {
     // TODO
   };
 
+  // function for handling delete button
+  handleDeleteClick = () => {
+    // TODO
+  };
+
   // function for handling archive button
   handleArchiveClick = () => {
     const anncId = this.props.annc.id;
@@ -169,12 +174,17 @@ class Annc extends Component {
           onClose={this.handleClose}
         >
           {/* Edit button */}
-          <StyledMenuItem name="editButton" onClick={this.handleEditClick}>
+          <StyledMenuItem
+            name="editButton"
+            onClick={this.handleEditClick}
+            disabled
+          >
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
             <ListItemText primary="Edit" />
           </StyledMenuItem>
+
           {/* Archive button */}
           <StyledMenuItem
             name="archiveButton"
@@ -185,8 +195,13 @@ class Annc extends Component {
             </ListItemIcon>
             <ListItemText primary="Archive" />
           </StyledMenuItem>
+          
           {/* Delete button */}
-          <StyledMenuItem name="deleteButton" onClick={this.handleDeleteClick}>
+          <StyledMenuItem
+            name="deleteButton"
+            onClick={this.handleDeleteClick}
+            disabled
+          >
             <ListItemIcon>
               <DeleteIcon />
             </ListItemIcon>

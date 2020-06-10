@@ -441,7 +441,6 @@ export class adminLogin extends Component {
               autoHideDuration={6000}
               onClose={this.handleClose}
               message={"Announcement Submitted"}
-              // color={}
             />
           </form>
         </Grid>
