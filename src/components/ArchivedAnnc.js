@@ -143,6 +143,11 @@ class ArchivedAnnc extends Component {
         timestamp,
       },
     } = this.props;
+    
+    // get timestamp in readable format
+    let date = new Date(timestamp);
+    let time = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -169,7 +174,11 @@ class ArchivedAnnc extends Component {
           onClose={this.handleClose}
         >
           {/* Edit button */}
-          <StyledMenuItem name="editButton" onClick={this.handleEditClick} disabled>
+          <StyledMenuItem
+            name="editButton"
+            onClick={this.handleEditClick}
+            disabled
+          >
             <ListItemIcon>
               <EditIcon />
             </ListItemIcon>
@@ -207,7 +216,9 @@ class ArchivedAnnc extends Component {
             <p>submitted by {cont_name + " - " + cont_email}</p>
           </Typography>
           <Typography className="contact" variant="caption">
-            <p>submitted {dayjs(timestamp).fromNow()}</p>
+            <p>
+              submitted {dayjs(timestamp).fromNow()} - {time}
+            </p>
           </Typography>
         </CardContent>
       </Card>

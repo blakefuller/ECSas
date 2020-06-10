@@ -148,6 +148,11 @@ class Annc extends Component {
         timestamp,
       },
     } = this.props;
+
+    // get timestamp in readable format
+    let date = new Date(timestamp);
+    let time = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+
     return (
       <Card className={classes.card}>
         <CardHeader
@@ -195,7 +200,7 @@ class Annc extends Component {
             </ListItemIcon>
             <ListItemText primary="Archive" />
           </StyledMenuItem>
-          
+
           {/* Delete button */}
           <StyledMenuItem
             name="deleteButton"
@@ -232,7 +237,9 @@ class Annc extends Component {
             <p>submitted by {cont_name + " - " + cont_email}</p>
           </Typography>
           <Typography className="contact" variant="caption">
-            <p>submitted {dayjs(timestamp).fromNow()}</p>
+            <p>
+              submitted {dayjs(timestamp).fromNow()} - {time}
+            </p>
           </Typography>
         </CardContent>
       </Card>
