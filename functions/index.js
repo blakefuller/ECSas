@@ -1,5 +1,6 @@
 const functions = require('firebase-functions')
 const app = require('express')()
+const cors = require('cors')
 const {  getAllAnncs,
          getAnnc,
          submitAnnc,
@@ -10,6 +11,8 @@ const {  getAllArchAnncs,
          deleteArchAnnc } = require('./routes/archive')
 const { adminLogin } = require('./routes/adminLogin')
 const { fbAuth } = require('./util/fbAuth')
+
+app.use(cors())
 
 //* ~~~ Announcements Routes ~~~ *//
 app.get('/anncs', fbAuth, getAllAnncs)
