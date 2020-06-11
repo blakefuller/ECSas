@@ -13,6 +13,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { IconButton } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 
+const apiUrl = require("../util/config.json").api;
+
 const styles = {
   button: {
     margin: "none",
@@ -79,7 +81,7 @@ export class admin extends Component {
   // GET all anncs after mounting admin component
   componentDidMount() {
     axios
-      .get("/anncs", {
+      .get(apiUrl + "/anncs", {
         headers: { Authorization: `${localStorage.FBIdToken}` },
       })
       .then((res) => {
@@ -121,7 +123,7 @@ export class admin extends Component {
   // function for loading archived anncs after panel is expanded
   handleExpand = () => {
     axios
-      .get("/archive", {
+      .get(apiUrl + "/archive", {
         headers: { Authorization: `${localStorage.FBIdToken}` },
       })
       .then((res) => {
