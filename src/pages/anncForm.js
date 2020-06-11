@@ -15,6 +15,8 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 
+const apiUrl = require("../util/config.json");
+
 const styles = {
   formContainer: {
     textAlign: "center",
@@ -37,12 +39,12 @@ const styles = {
   },
   textField: {
     display: "block",
-    padding: "5px"
+    padding: "5px",
   },
   description: {
     marginTop: "40px",
-    marginBottom: "30px"
-  }
+    marginBottom: "30px",
+  },
 };
 
 // set the category choices
@@ -104,7 +106,7 @@ export class adminLogin extends Component {
 
     // get current date in mm/dd/yyyy
     let today = new Date();
-    let mm = today.getMonth()+1;
+    let mm = today.getMonth() + 1;
     let dd = today.getDate();
     let yyyy = today.getFullYear();
     today = `${mm}/${dd}/${yyyy}`;
@@ -153,7 +155,7 @@ export class adminLogin extends Component {
 
     // send POST request to API for login
     axios
-      .post("/anncs", formData)
+      .post(apiUrl + "/anncs", formData)
       // if login is successful
       .then((res) => {
         console.log(res.data);

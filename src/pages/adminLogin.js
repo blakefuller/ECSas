@@ -8,6 +8,8 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 
+const apiUrl = require("../util/config.json");
+
 const styles = {
   formContainer: {
     textAlign: "center",
@@ -55,7 +57,7 @@ export class adminLogin extends Component {
 
     // send POST request to API for login
     axios
-      .post("/admin-login", userData)
+      .post(apiUrl + "/admin-login", userData)
       // if login is successful
       .then((res) => {
         // store token in local storage

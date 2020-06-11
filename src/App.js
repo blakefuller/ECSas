@@ -35,7 +35,7 @@ function App() {
           <Navbar />
           <div className="container">
             <Switch>
-              <Route path="/" component={home} />
+              {/* <Route path="/" component={home} /> */}
               <Route path="/form" component={anncForm} />
               <AuthRoute path="/admin" component={admin} />
               <AuthRoute
