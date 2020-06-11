@@ -15,7 +15,7 @@ import {
 import DateFnsUtils from "@date-io/date-fns";
 import axios from "axios";
 
-const apiUrl = require("../util/config.json");
+const apiUrl = require("../util/config.json").api;
 
 const styles = {
   formContainer: {

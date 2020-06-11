@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import axios from "axios";
 
-const apiUrl = require("../util/config.json");
+const apiUrl = require("../util/config.json").api;
 
 const styles = {
   formContainer: {
@@ -56,6 +56,7 @@ export class adminLogin extends Component {
     };
 
     // send POST request to API for login
+    console.log(apiUrl)
     axios
       .post(apiUrl + "/admin-login", userData)
       // if login is successful

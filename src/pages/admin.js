@@ -12,7 +12,8 @@ import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { IconButton } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
-const apiUrl = require("../util/config.json");
+
+const apiUrl = require("../util/config.json").api;
 
 const styles = {
   button: {
