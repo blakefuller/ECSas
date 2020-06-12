@@ -145,6 +145,8 @@ class Annc extends Component {
         url,
         cont_name,
         cont_email,
+        sub_name,
+        sub_email,
         timestamp,
       },
     } = this.props;
@@ -234,7 +236,10 @@ class Annc extends Component {
             </a>
           </Typography>
           <Typography className="contact" variant="caption">
-            <p>submitted by {cont_name + " - " + cont_email}</p>
+            <p>Contact: {cont_name + " - " + cont_email}</p>
+          </Typography>
+          <Typography className="contact" variant="caption">
+            <p>submitted by {sub_name + " - " + sub_email}</p>
           </Typography>
           <Typography className="contact" variant="caption">
             <p>
